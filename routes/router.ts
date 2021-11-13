@@ -12,9 +12,27 @@ router.get('/mensajes', (req: Request, res: Response) => {
 
 // POST /mensajes - Crea un nuevo mensaje
 router.post('/mensajes', (req: Request, res: Response) => {
+  const cuerpo = req.body.cuerpo
+  const de = req.body.de
+
   res.json({
     ok: true,
-    mensaje: 'POST - Listo'
+    cuerpo,
+    de
+  })
+})
+
+// POST /mensajes/:id - Actualiza un mensaje
+router.post('/mensajes/:id', (req: Request, res: Response) => {
+  const cuerpo = req.body.cuerpo
+  const de = req.body.de
+  const id = req.params.id
+
+  res.json({
+    ok: true,
+    cuerpo,
+    de,
+    id
   })
 })
 
