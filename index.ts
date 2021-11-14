@@ -4,8 +4,8 @@ import cors from 'cors'
 import Server from './class/server'
 import router from './routes/router'
 
-// Instancia del servidor
-const server = new Server()
+// Instancia del servidor de express
+const server = Server.instance
 
 // Middlewares
 server.app.use(bodyParser.urlencoded({ extended: true }))
