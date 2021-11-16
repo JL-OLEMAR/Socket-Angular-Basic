@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Socket } from 'socket.io'
+import socketIO, { Socket } from 'socket.io'
 
 // Metodo para desconexion de cliente del socket
 export const desconectar = (cliente: Socket) => {
@@ -9,8 +9,12 @@ export const desconectar = (cliente: Socket) => {
 }
 
 // Escuchar mensajes de cliente(angular)
-export const mensaje = (cliente: Socket) => {
+export const mensaje = (cliente: Socket, io: socketIO.Server) => {
+  // Escuchar mensaje de cliente
   cliente.on('mensaje', (payload: { de: string, cuerpo: string }) => {
     console.log('📬 Mensaje recibido', payload)
+
+    // Emitir mensaje a todos los clientes
+    io.emit('mensaje-nuevo', payload)
   })
 }
