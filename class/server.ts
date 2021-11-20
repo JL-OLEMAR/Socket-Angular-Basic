@@ -31,19 +31,21 @@ export default class Server {
     console.log('🧏‍♂️ Escuchando todas las conexiones - ⚡sockets')
     // Conectar cliente con el servidor
     this.io.on('connection', cliente => {
-      console.log('✅ Cliente conectado')
+      // Conectar cliente con el servidor
+      socket.conectarCliente(cliente)
+
+      // Configurar usuario
+      socket.configurandoUsuario(cliente, this.io)
 
       // Mensajes
       socket.mensaje(cliente, this.io)
 
       // Desconexion del cliente
       socket.desconectar(cliente)
-
-      // Configurar usuario
-      socket.configurandoUsuario(cliente, this.io)
     })
   }
 
+  // Iniciar servidor
   start (callback: Function): void {
     this.httpServer.listen(this.port, callback())
   }

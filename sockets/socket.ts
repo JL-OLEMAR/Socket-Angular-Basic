@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type, standard/no-callback-literal */
 import socketIO, { Socket } from 'socket.io'
+import { Usuario } from '../class/usuario'
+import { UsuariosLista } from '../class/usuarios-lista'
+
+export const usuariosConectados = new UsuariosLista()
+
+// Metodo que se ejecuta cuando un usuario se conecta
+export const conectarCliente = (cliente: Socket) => {
+  const usuario = new Usuario(cliente.id)
+  usuariosConectados.agregar(usuario)
+}
 
 // Metodo para desconexion de cliente del socket
 export const desconectar = (cliente: Socket) => {
   cliente.on('disconnect', () => {
-    console.log('❌ Cliente desconectado')
+    usuariosConectados.borrarUsuario(cliente.id)
+    console.log('❌ Cliente desconectado', cliente.id)
   })
 }
 
@@ -23,7 +34,7 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
 export const configurandoUsuario = (cliente: Socket, io: socketIO.Server) => {
   // Escuchar mensaje de cliente
   cliente.on('configurar-usuario', (payload: { nombre: string }, callback: Function) => {
-    console.log('🧑‍💻 Configurando Usuario:', payload.nombre)
+    usuariosConectados.actualizarNombre(cliente.id, payload.nombre)
 
     // Mandar el callback al cliente, con los datos del usuario
     callback({

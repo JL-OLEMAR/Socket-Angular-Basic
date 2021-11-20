@@ -8,7 +8,6 @@ export class UsuariosLista {
   // Agregar un usuario
   public agregar (usuario: Usuario): Usuario {
     this.lista.push(usuario)
-    console.log(this.lista)
     return usuario
   }
 
@@ -20,9 +19,6 @@ export class UsuariosLista {
         break
       }
     }
-
-    console.log('==== Actualizando usuario ====')
-    console.log(this.lista)
   }
 
   // Obtener lista de usuarios
@@ -44,12 +40,8 @@ export class UsuariosLista {
   public borrarUsuario (id: string): Usuario | undefined {
     const tempUsuario = this.getUsuario(id)
 
-    // Muestra a todos los usuarios, cuyo id sea diferente al que se quiere borrar
+    // Eliminar el usuario de la lista
     this.lista = this.lista.filter(usuario => usuario.id !== id)
-
-    console.log('==== Borrando usuario ====')
-    console.log(this.lista)
-
     return tempUsuario
   }
 }
