@@ -9,6 +9,7 @@ export const usuariosConectados = new UsuariosLista()
 export const conectarCliente = (cliente: Socket) => {
   const usuario = new Usuario(cliente.id)
   usuariosConectados.agregar(usuario)
+  console.log('✅ Cliente conectado', cliente.id)
 }
 
 // Metodo para desconexion de cliente del socket
