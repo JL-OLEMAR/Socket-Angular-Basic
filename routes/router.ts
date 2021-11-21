@@ -16,6 +16,10 @@ router.post('/mensajes', (req: Request, res: Response) => {
   const cuerpo = req.body.cuerpo
   const de = req.body.de
 
+  const payload = { cuerpo, de }
+  const server = Server.instance
+  server.io.emit('mensaje-nuevo', payload)
+
   res.json({
     ok: true,
     cuerpo,
