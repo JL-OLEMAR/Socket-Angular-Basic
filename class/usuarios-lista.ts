@@ -21,9 +21,9 @@ export class UsuariosLista {
     }
   }
 
-  // Obtener lista de usuarios
+  // Obtener lista de todos los usuarios que no tengan como nombre 'sin-nombre'
   public getLista (): Usuario[] {
-    return this.lista
+    return this.lista.filter(usuario => usuario.nombre !== 'sin-nombre')
   }
 
   // Obtener un usuario
