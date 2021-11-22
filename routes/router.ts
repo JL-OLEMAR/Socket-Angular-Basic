@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import Server from '../class/server'
-import { usuariosConectados } from '../sockets/socket';
+import { usuariosConectados } from '../sockets/socket'
 
 const router = Router()
 

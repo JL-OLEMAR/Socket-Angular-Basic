@@ -8,15 +8,17 @@ export const usuariosConectados = new UsuariosLista()
 // Metodo que se ejecuta cuando un usuario se conecta
 export const conectarCliente = (cliente: Socket) => {
   const usuario = new Usuario(cliente.id)
-  usuariosConectados.agregar(usuario)
   console.log('✅ Cliente conectado', cliente.id)
+  usuariosConectados.agregar(usuario)
 }
 
 // Metodo para desconexion de cliente del socket
-export const desconectar = (cliente: Socket) => {
+export const desconectar = (cliente: Socket, io: socketIO.Server) => {
   cliente.on('disconnect', () => {
-    usuariosConectados.borrarUsuario(cliente.id)
     console.log('❌ Cliente desconectado', cliente.id)
+    usuariosConectados.borrarUsuario(cliente.id)
+
+    io.emit('usuarios-activos', usuariosConectados.getLista())
   })
 }
 
@@ -31,11 +33,12 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
   })
 }
 
-// Escuchar evento, Configurar Usuario
+// Escuchar configurandoUsuario, sirve para configurar el nombre de usuario
 export const configurandoUsuario = (cliente: Socket, io: socketIO.Server) => {
   // Escuchar mensaje de cliente
   cliente.on('configurar-usuario', (payload: { nombre: string }, callback: Function) => {
     usuariosConectados.actualizarNombre(cliente.id, payload.nombre)
+    io.emit('usuarios-activos', usuariosConectados.getLista())
 
     // Mandar el callback al cliente, con los datos del usuario
     callback({
