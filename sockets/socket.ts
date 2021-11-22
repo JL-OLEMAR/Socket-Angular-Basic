@@ -35,7 +35,7 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
 
 // Escuchar configurandoUsuario, sirve para configurar el nombre de usuario
 export const configurandoUsuario = (cliente: Socket, io: socketIO.Server) => {
-  // Escuchar mensaje de cliente
+  // Escuchar mensaje de cliente para configurar el nombre de usuario
   cliente.on('configurar-usuario', (payload: { nombre: string }, callback: Function) => {
     usuariosConectados.actualizarNombre(cliente.id, payload.nombre)
     io.emit('usuarios-activos', usuariosConectados.getLista())
@@ -45,5 +45,14 @@ export const configurandoUsuario = (cliente: Socket, io: socketIO.Server) => {
       ok: true,
       mensaje: `El usuario: ${payload.nombre} esta configurado`
     })
+  })
+}
+
+// Obtener lista de usuarios activos
+export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
+  // Escuchar evento obtener usuarios
+  cliente.on('obtener-usuarios', () => {
+    // Emitir el evento 'usuarios-activos' solo a este cliente
+    io.to(cliente.id).emit('usuarios-activos', usuariosConectados.getLista())
   })
 }
