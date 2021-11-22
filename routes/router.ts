@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import Server from '../class/server'
+import { usuariosConectados } from '../sockets/socket';
 
 const router = Router()
 
@@ -60,6 +61,14 @@ router.get('/usuarios', (req: Request, res: Response) => {
       ok: false,
       err
     })
+  })
+})
+
+// Obtener usuarios y sus nombres
+router.get('/usuarios/detalle', (req: Request, res: Response) => {
+  res.json({
+    ok: true,
+    clientes: usuariosConectados.getLista()
   })
 })
 
