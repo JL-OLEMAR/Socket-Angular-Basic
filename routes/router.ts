@@ -1,8 +1,27 @@
 import { Router, Request, Response } from 'express'
 import Server from '../class/server'
 import { usuariosConectados } from '../sockets/socket'
+import { GraficaData } from '../class/grafica'
 
 const router = Router()
+
+const grafica = new GraficaData()
+
+// GET /grafica - Devuelve data de la grafica
+router.get('/grafica', (req: Request, res: Response) => {
+  res.json(grafica.getDataGrafica())
+})
+
+router.post('/grafica', (req: Request, res: Response) => {
+  const mes = req.body.mes
+  const unidades = Number(req.body.unidades)
+  // const server = Server.instance
+  // server.io.emit('mensaje-nuevo', payload)
+
+  grafica.incrementarValor(mes, unidades)
+
+  res.json(grafica.getDataGrafica())
+})
 
 // GET /mensajes - Devuelve todos los mensajes
 router.get('/mensajes', (req: Request, res: Response) => {

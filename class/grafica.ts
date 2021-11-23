@@ -2,7 +2,7 @@
 export class GraficaData {
   // meses del año
   private readonly meses: string[] = ['january', 'february', 'march', 'april']
-  private readonly valores: number[] = [1, 2, 3, 4]
+  private readonly valores: number[] = [0, 0, 0, 0]
 
   // Mostrar datos de la grafica
   getDataGrafica (): any {
