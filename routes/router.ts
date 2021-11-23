@@ -15,10 +15,12 @@ router.get('/grafica', (req: Request, res: Response) => {
 router.post('/grafica', (req: Request, res: Response) => {
   const mes = req.body.mes
   const unidades = Number(req.body.unidades)
-  // const server = Server.instance
-  // server.io.emit('mensaje-nuevo', payload)
-
   grafica.incrementarValor(mes, unidades)
+
+  // Instanciar al servidor
+  const server = Server.instance
+  // Envia los valores de la gráfica a todos los usuarios conectados
+  server.io.emit('cambio-grafica', grafica.getDataGrafica())
 
   res.json(grafica.getDataGrafica())
 })
