@@ -2,16 +2,36 @@ import { Router, Request, Response } from 'express'
 import Server from '../class/server'
 import { usuariosConectados } from '../sockets/socket'
 import { GraficaData } from '../class/grafica'
+import { GraficaBarraData } from '../class/graficaBarras'
 
 const router = Router()
 
 const grafica = new GraficaData()
+const graficaBarras = new GraficaBarraData()
+
+// GET /grafica-barras - Devuelve data de la grafica en barras
+router.get('/grafica-barras', (req: Request, res: Response) => {
+  res.json(graficaBarras.getDataGraficaBarra())
+})
+
+// POST /grafica-barras - Incrementa unidades de la grafica segun la opcion de la pregunta
+router.post('/grafica-barras', (req: Request, res: Response) => {
+  const opcion = Number(req.body.opcion)
+  const unidades = Number(req.body.unidades)
+  graficaBarras.incrementarUnidades(opcion, unidades)
+
+  const server = Server.instance
+  server.io.emit('cambio-grafica-barras', graficaBarras.getDataGraficaBarra())
+
+  res.json(graficaBarras.getDataGraficaBarra())
+})
 
 // GET /grafica - Devuelve data de la grafica
 router.get('/grafica', (req: Request, res: Response) => {
   res.json(grafica.getDataGrafica())
 })
 
+// POST /grafica - Incrementa unidades de la grafica segun la opcion de la pregunta
 router.post('/grafica', (req: Request, res: Response) => {
   const mes = req.body.mes
   const unidades = Number(req.body.unidades)
