@@ -1,14 +1,12 @@
 import { Router, Request, Response } from 'express'
 import Server from '../class/server'
-import { usuariosConectados } from '../sockets/socket'
-import { GraficaBarraData } from '../class/graficaBarras'
 import { GraficaData } from '../class/grafica'
-import { Mapa } from '../class/mapa'
+import { GraficaBarraData } from '../class/graficaBarras'
+import { usuariosConectados, mapa } from '../sockets/socket'
 
 const router = Router()
 const grafica = new GraficaData()
 const graficaBarras = new GraficaBarraData()
-const mapa = new Mapa()
 
 // ---------------------MAPAS--------------------------------------------------------
 

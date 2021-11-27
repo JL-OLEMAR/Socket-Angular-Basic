@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type, standard/no-callback-literal */
 import socketIO, { Socket } from 'socket.io'
+import { Mapa } from '../class/mapa'
+import { Marcador } from '../class/marcador'
 import { Usuario } from '../class/usuario'
 import { UsuariosLista } from '../class/usuarios-lista'
 
 export const usuariosConectados = new UsuariosLista()
+export const mapa = new Mapa()
+
+// -------------------Conexion de un cliente---------------------------------------------
 
 // Metodo que se ejecuta cuando un usuario se conecta
 export const conectarCliente = (cliente: Socket) => {
@@ -22,16 +27,7 @@ export const desconectar = (cliente: Socket, io: socketIO.Server) => {
   })
 }
 
-// Escuchar mensajes de cliente(angular)
-export const mensaje = (cliente: Socket, io: socketIO.Server) => {
-  // Escuchar mensaje de cliente
-  cliente.on('mensaje', (payload: { de: string, cuerpo: string }) => {
-    console.log('📬 Mensaje recibido', payload)
-
-    // Emitir mensaje a todos los clientes
-    io.emit('mensaje-nuevo', payload)
-  })
-}
+// -------------------Usuarios-----------------------------------------------------------
 
 // Escuchar configurandoUsuario, sirve para configurar el nombre de usuario
 export const configurandoUsuario = (cliente: Socket, io: socketIO.Server) => {
@@ -54,5 +50,31 @@ export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
   cliente.on('obtener-usuarios', () => {
     // Emitir el evento 'usuarios-activos' solo a este cliente
     io.to(cliente.id).emit('usuarios-activos', usuariosConectados.getLista())
+  })
+}
+
+// -------------------Mensajes-----------------------------------------------------------
+
+// Escuchar mensajes de cliente(angular)
+export const mensaje = (cliente: Socket, io: socketIO.Server) => {
+  // Escuchar mensaje de cliente
+  cliente.on('mensaje', (payload: { de: string, cuerpo: string }) => {
+    console.log('📬 Mensaje recibido', payload)
+
+    // Emitir mensaje a todos los clientes
+    io.emit('mensaje-nuevo', payload)
+  })
+}
+
+// -------------------Mapas-----------------------------------------------------------
+
+// Escuchar mensajes de cliente(angular)
+export const mapaSockets = (cliente: Socket, io: socketIO.Server) => {
+  // Escuchar 'marcador-nuevo' del cliente
+  cliente.on('marcador-nuevo', (marcador: Marcador) => {
+    mapa.agregarMarcador(marcador)
+
+    // El broadcast significa que se envia a todos los clientes excepto al que lo envia
+    cliente.broadcast.emit('marcador-nuevo', marcador)
   })
 }
