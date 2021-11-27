@@ -85,4 +85,12 @@ export const mapaSockets = (cliente: Socket, io: socketIO.Server) => {
     // El broadcast significa que se envia a todos los clientes excepto al que lo envia
     cliente.broadcast.emit('marcador-borrar', id)
   })
+
+  // Escuchar 'marcador-mover' del cliente
+  cliente.on('marcador-mover', (marcador: Marcador) => {
+    mapa.moverMarcador(marcador)
+
+    // El broadcast significa que se envia a todos los clientes excepto al que lo envia
+    cliente.broadcast.emit('marcador-mover', marcador)
+  })
 }
