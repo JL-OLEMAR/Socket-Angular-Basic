@@ -44,7 +44,7 @@ export default class Server {
       socket.mensaje(cliente, this.io)
 
       // Configuración de mapas
-      socket.mapaSockets(cliente, this.io)
+      socket.mapaSockets(cliente)
 
       // Desconexion del cliente
       socket.desconectar(cliente, this.io)

@@ -5,8 +5,8 @@ import { Marcador } from '../class/marcador'
 import { Usuario } from '../class/usuario'
 import { UsuariosLista } from '../class/usuarios-lista'
 
-export const usuariosConectados = new UsuariosLista()
 export const mapa = new Mapa()
+export const usuariosConectados = new UsuariosLista()
 
 // -------------------Conexion de un cliente---------------------------------------------
 
@@ -66,10 +66,10 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
   })
 }
 
-// -------------------Mapas-----------------------------------------------------------
+// -------------------Mapas--------------------------------------------------------------
 
 // Escuchar mensajes de cliente(angular)
-export const mapaSockets = (cliente: Socket, io: socketIO.Server) => {
+export const mapaSockets = (cliente: Socket) => {
   // Escuchar 'marcador-nuevo' del cliente
   cliente.on('marcador-nuevo', (marcador: Marcador) => {
     mapa.agregarMarcador(marcador)
