@@ -1,8 +1,9 @@
 import { Router, Request, Response } from 'express'
 import Server from '../class/server'
-import { usuariosConectados, mapa } from '../sockets/socket'
+import { usuariosConectados, mapa, mapaGoogleMaps } from '../sockets/socket'
 import { GraficaData } from '../class/grafica'
 import { GraficaBarraData } from '../class/graficaBarras'
+import { Marcador } from '../class/marcador'
 
 const router = Router()
 const grafica = new GraficaData()
@@ -125,6 +126,36 @@ router.post('/grafica-barras', (req: Request, res: Response) => {
 // Devuelve data del mapa
 router.get('/mapa', (req: Request, res: Response) => {
   res.json(mapa.getMarcadores())
+})
+
+// ---------------------GOOGLEMAPS---------------------------------------------------
+
+const lugares: Marcador[] = [
+  {
+    id: '1',
+    nombre: 'Udemy',
+    lat: 37.784679,
+    lng: -122.395936
+  },
+  {
+    id: '2',
+    nombre: 'Bahía de San Francisco',
+    lat: 37.798933,
+    lng: -122.377732
+  },
+  {
+    id: '3',
+    nombre: 'The Palace Hotel',
+    lat: 37.788578,
+    lng: -122.401745
+  }
+]
+
+mapaGoogleMaps.marcadores.push(...lugares)
+
+// Devuelve data del google maps
+router.get('/googleMaps', (req: Request, res: Response) => {
+  res.json(mapaGoogleMaps.getMarcadores())
 })
 
 export default router

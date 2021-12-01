@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type, standard/no-callback-literal */
 import socketIO, { Socket } from 'socket.io'
 import { Mapa } from '../class/mapa'
+import { MapaGoogleMaps } from '../class/mapaGoogleMaps'
 import { Marcador } from '../class/marcador'
 import { Usuario } from '../class/usuario'
 import { UsuariosLista } from '../class/usuarios-lista'
 
 export const mapa = new Mapa()
+export const mapaGoogleMaps = new MapaGoogleMaps()
 export const usuariosConectados = new UsuariosLista()
 
 // -------------------Conexion de un cliente---------------------------------------------

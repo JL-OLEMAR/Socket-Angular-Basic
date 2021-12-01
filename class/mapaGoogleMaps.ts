@@ -2,7 +2,7 @@
 import { Marcador } from './marcador'
 
 export class MapaGoogleMaps {
-  private marcadores: Marcador[] = []
+  public marcadores: Marcador[] = []
 
   // constructor() {}
 
