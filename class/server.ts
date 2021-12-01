@@ -45,6 +45,7 @@ export default class Server {
 
       // Configuración de mapas
       socket.mapaSockets(cliente)
+      socket.GoogleMapsSockets(cliente)
 
       // Desconexion del cliente
       socket.desconectar(cliente, this.io)

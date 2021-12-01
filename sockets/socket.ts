@@ -96,3 +96,16 @@ export const mapaSockets = (cliente: Socket) => {
     cliente.broadcast.emit('marcador-mover', marcador)
   })
 }
+
+// -------------------GoogleMaps---------------------------------------------------------
+
+// Escuchar mensajes de cliente(angular)
+export const GoogleMapsSockets = (cliente: Socket) => {
+  // Escuchar 'marcador-nuevo' del cliente
+  cliente.on('marcador-nuevo', (marcador: Marcador) => {
+    mapaGoogleMaps.agregarMarcador(marcador)
+
+    // El broadcast significa que se envia a todos los clientes excepto al que lo envia
+    cliente.broadcast.emit('marcador-nuevo', marcador)
+  })
+}
