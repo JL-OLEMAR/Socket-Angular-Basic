@@ -20,22 +20,12 @@ export class Mapa {
   // Metodo para botar un marcador en el mapa
   borrarMarcador (id: string): {[key: string]: Marcador} {
     delete this.marcadores[id]
-    return this.getMarcadores()
+    return this.marcadores
   }
 
-  // Metodo para mover un marcador en el mapa
-  // moverMarcador (marcador: Marcador): void {
-  //   this.marcadores[marcador.id].lng = marcador.lng
-  //   this.marcadores[marcador.id].lat = marcador.lat
-  // }
-
+  // Logica para mover un marcador
   moverMarcador (marcador: Marcador): void {
-    for (const i in this.marcadores) {
-      if (this.marcadores[i].id === marcador.id) {
-        this.marcadores[i].lat = marcador.lat
-        this.marcadores[i].lng = marcador.lng
-        break
-      }
-    }
+    this.marcadores[marcador.id].lng = marcador.lng
+    this.marcadores[marcador.id].lat = marcador.lat
   }
 }
